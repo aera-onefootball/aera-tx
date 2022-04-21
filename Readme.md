@@ -19,4 +19,5 @@ we want however to safeguard against typos and other potentially costly mistakes
 ```shell
 brew install pre-commit
 pre-commit install
+pre-commit run -a
 ```
