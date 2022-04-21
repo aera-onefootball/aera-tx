@@ -11,7 +11,7 @@ transaction {
         if !findPackCap.check() {
             account.save<@NonFungibleToken.Collection>( <- FindPack.createEmptyCollection(), to: FindPack.CollectionStoragePath)
             account.link<&FindPack.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, FindPack.CollectionPublic, MetadataViews.ResolverCollection}>(
-                FindPack.CollectionPublicPath,
+                FindPack.CollectionPublicPath, 
                 target: FindPack.CollectionStoragePath
             )
         }

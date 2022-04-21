@@ -22,7 +22,7 @@ transaction(marketplace:Address, packId:UInt64, amount: UFix64, signature:String
     //TODO: How does dapper sign this transaction? Does this happen automatically or does the dapp have to ask dapper via an api for an authorizer to co-sign?
     prepare(dapper:AuthAccount, account: AuthAccount) {
 
-        //We do not init the users storage here since it is important that a user has both a Pack and the collection to receive the content initialized.
+        //We do not init the users storage here since it is important that a user has both a Pack and the collection to receive the content initialized.  
         //If we did both here the transaction template would be tied to a specific packed NFT and that is not desireable
         self.userPacks=account.getCapability<&FindPack.Collection{NonFungibleToken.Receiver}>(FindPack.CollectionPublicPath)
 
