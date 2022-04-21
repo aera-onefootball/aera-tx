@@ -8,22 +8,22 @@ import MetadataViews from 0x631e88ae7f1d7c20
 /// @param packId: The id of the pack to open
 transaction(packId:UInt64) {
 
-	let packs: &FindPack.Collection
-	let receiver: Capability<&{NonFungibleToken.Receiver}>
+    let packs: &FindPack.Collection
+    let receiver: Capability<&{NonFungibleToken.Receiver}>
 
-	prepare(account: AuthAccount) {
-		self.packs=account.borrow<&FindPack.Collection>(from: FindPack.CollectionStoragePath)!
-		self.receiver = account.getCapability<&{NonFungibleToken.Receiver}>(HatttricksNFT.CollectionPublicPath)
-	}
+    prepare(account: AuthAccount) {
+        self.packs=account.borrow<&FindPack.Collection>(from: FindPack.CollectionStoragePath)!
+        self.receiver = account.getCapability<&{NonFungibleToken.Receiver}>(HatttricksNFT.CollectionPublicPath)
+    }
 
-	pre {
-		self.receiver.check() : "The receiver collection for the packs is not present"
-	}
-	execute {
-		self.packs.open(packId: packId, receiverCap:self.receiver)
-	}
+    pre {
+        self.receiver.check() : "The receiver collection for the packs is not present"
+    }
+    execute {
+        self.packs.open(packId: packId, receiverCap:self.receiver)
+    }
 
-	post {
-		!self.packs.getIDs().contains(packId) : "The pack is still present in the users collection"
-	}
+    post {
+        !self.packs.getIDs().contains(packId) : "The pack is still present in the users collection"
+    }
 }
