@@ -1,5 +1,5 @@
-import HatttricksNFT from 0x4ff956c78244911b
-import FindPack from 0x4ff956c78244911b
+import HatttricksNFT from 0x9b6ec56eec94507b
+import AeraPack from 0x9b6ec56eec94507b
 import FungibleToken from 0x9a0766d93b6608b7
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
@@ -8,11 +8,11 @@ import MetadataViews from 0x631e88ae7f1d7c20
 /// @param packId: The id of the pack to open
 transaction(packId:UInt64) {
 
-    let packs: &FindPack.Collection
+    let packs: &AeraPack.Collection
     let receiver: Capability<&{NonFungibleToken.Receiver}>
 
     prepare(account: AuthAccount) {
-        self.packs=account.borrow<&FindPack.Collection>(from: FindPack.CollectionStoragePath)!
+        self.packs=account.borrow<&AeraPack.Collection>(from: AeraPack.CollectionStoragePath)!
         self.receiver = account.getCapability<&{NonFungibleToken.Receiver}>(HatttricksNFT.CollectionPublicPath)
     }
 
