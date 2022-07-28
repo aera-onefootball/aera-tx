@@ -1,5 +1,5 @@
-import HatttricksNFT from 0x9b6ec56eec94507b
-import AeraPack from 0x9b6ec56eec94507b
+import AeraNFT from 0xd35de4da00fb3511
+import AeraPack from 0xd35de4da00fb3511
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 
@@ -16,16 +16,16 @@ transaction {
             )
         }
 
-        let hatttricksCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(HatttricksNFT.CollectionPublicPath)
-        if !hatttricksCap.check() {
-            account.save<@NonFungibleToken.Collection>(<- HatttricksNFT.createEmptyCollection(), to: HatttricksNFT.CollectionStoragePath)
-            account.link<&HatttricksNFT.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection}>(
-                HatttricksNFT.CollectionPublicPath,
-                target: HatttricksNFT.CollectionStoragePath
+        let aeraCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraNFT.CollectionPublicPath)
+        if !aeraCap.check() {
+            account.save<@NonFungibleToken.Collection>(<- AeraNFT.createEmptyCollection(), to: AeraNFT.CollectionStoragePath)
+            account.link<&AeraNFT.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection, AeraNFT.CollectionPublic}>(
+                AeraNFT.CollectionPublicPath,
+                target: AeraNFT.CollectionStoragePath
             )
-            account.link<&HatttricksNFT.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection}>(
-                HatttricksNFT.CollectionPrivatePath,
-                target: HatttricksNFT.CollectionStoragePath
+            account.link<&AeraNFT.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection, AeraNFT.CollectionPublic}>(
+                AeraNFT.CollectionPrivatePath,
+                target: AeraNFT.CollectionStoragePath
             )
         }
     }
