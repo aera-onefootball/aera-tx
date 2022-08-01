@@ -2,6 +2,7 @@ import AeraNFT from 0xd35de4da00fb3511
 import AeraPack from 0xd35de4da00fb3511
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
+import FLOAT from 0x0afe396ebc8eee65
 
 //Initialize a users storage slots for OneFootball
 transaction {
@@ -26,6 +27,17 @@ transaction {
             account.link<&AeraNFT.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection, AeraNFT.CollectionPublic}>(
                 AeraNFT.CollectionPrivatePath,
                 target: AeraNFT.CollectionStoragePath
+            )
+        }
+
+        let floatCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(FLOAT.FLOATCollectionPublicPath)
+        // if account.borrow<&FLOAT.Collection>(from: FLOAT.FLOATCollectionStoragePath) == nil
+        if !floatCap.check() {
+            // cannot cast to <@NonFungibleToken.Collection>
+            account.save(<- FLOAT.createEmptyCollection(), to: FLOAT.FLOATCollectionStoragePath)
+            account.link<&FLOAT.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection, FLOAT.CollectionPublic}>(
+                FLOAT.FLOATCollectionPublicPath,
+                target: FLOAT.FLOATCollectionStoragePath
             )
         }
     }
