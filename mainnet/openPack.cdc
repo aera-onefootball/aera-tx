@@ -1,8 +1,8 @@
-import AeraNFT from 0xd35de4da00fb3511
-import AeraPack from 0xd35de4da00fb3511
-import FungibleToken from 0x9a0766d93b6608b7
-import NonFungibleToken from 0x631e88ae7f1d7c20
-import MetadataViews from 0x631e88ae7f1d7c20
+import AeraNFT from 0x30cf5dcf6ea8d379
+import AeraPack from 0x30cf5dcf6ea8d379
+import FungibleToken from 0xf233dcee88fe0abe
+import NonFungibleToken from 0x1d7e57aa55817448
+import MetadataViews from 0x1d7e57aa55817448
 
 /// A transaction to open a pack with a given id
 /// @param packId: The id of the pack to open
