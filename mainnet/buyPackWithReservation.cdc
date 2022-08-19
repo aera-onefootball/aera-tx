@@ -1,8 +1,8 @@
-import AeraPack from 0x46625f59708ec2f8
-import FungibleToken from 0x9a0766d93b6608b7
-import NonFungibleToken from 0x631e88ae7f1d7c20
-import MetadataViews from 0x631e88ae7f1d7c20
-import DapperUtilityCoin from 0x82ec283f88a62e65
+import AeraPack from 0x30cf5dcf6ea8d379
+import FungibleToken from 0xf233dcee88fe0abe
+import NonFungibleToken from 0x1d7e57aa55817448
+import MetadataViews from 0x1d7e57aa55817448
+import DapperUtilityCoin from 0xead892083b3e2c6c
 
 /// A transaction to buy a pack using a signed message from the backend
 /// @param marketplace: The account of the marketplace
