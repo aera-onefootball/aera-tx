@@ -21,7 +21,7 @@ pub struct PurchaseData {
 // Please also make sure that the argument order list should be same as that of the associated purchase txn
 pub fun main(marketplace: Address, packIds:[UInt64], totalAmount: UFix64, signatures: [String], prices: [UFix64]): PurchaseData {
 
-	let collection = getAccount(marketplace).getCapability(AeraPack.CollectionPublicPath).borrow<&{MetadataViews.ResolverCollection}>()
+	let collection = getAccount(0x30cf5dcf6ea8d379).getCapability(AeraPack.CollectionPublicPath).borrow<&{MetadataViews.ResolverCollection}>()
 		?? panic("Could not borrow a reference to the collection")
 
 	let displays: {UInt64: MetadataViews.Display} = {}
