@@ -31,13 +31,14 @@ pub fun main(marketplace: Address, packIds:[UInt64], totalAmount: UFix64, signat
 	}
 
 	let firstPackId = packIds[0]
+	let ipfsCid = (displays[firstPackId]!.thumbnail as! MetadataViews.IPFSFile).cid
 	let purchaseData = PurchaseData(
 		// id is the only field that doesn't make 100% sense for bulk purchase
 		id: firstPackId,
 		name: packIds.length.toString().concat(" x ".concat(displays[firstPackId]!.name)),
 		amount: totalAmount,
 		description: displays[firstPackId]!.description,
-		imageURL: displays[firstPackId]!.thumbnail.uri(),
+		imageURL: "https://nftstorage.link/ipfs/".concat(ipfsCid),
 	)
 
     return purchaseData
