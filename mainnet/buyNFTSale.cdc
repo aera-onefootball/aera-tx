@@ -1,4 +1,5 @@
 import FindMarket from 0x097bafa4e0b48eef
+import AeraNFT from  0x30cf5dcf6ea8d379
 import Profile from 0x097bafa4e0b48eef
 import FindMarketSale from 0x097bafa4e0b48eef
 import NFTCatalog from 0x49a7cda3a1eecc29
@@ -84,7 +85,6 @@ transaction(merchantAddress: Address, marketplace:Address, address: Address, id:
             panic("This item is not listed for Dapper Wallets. Please buy in with other wallets.")
         }
 
-
         self.targetCapability= account.getCapability<&{NonFungibleToken.Receiver}>(nft.publicPath)
 
         if !self.targetCapability.check() {
@@ -93,8 +93,8 @@ transaction(merchantAddress: Address, marketplace:Address, address: Address, id:
                 panic("This collection public link is not set up properly.")
             }
             account.save(<- cd.createEmptyCollection(), to: cd.storagePath)
-            account.link<&{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection}>(cd.publicPath, target: cd.storagePath)
-            account.link<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection}>(cd.providerPath, target: cd.storagePath)
+            account.link<&AeraNFT.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection,AeraNFT.CollectionPublic}>(cd.publicPath, target: cd.storagePath)
+            account.link<&AeraNFT.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection,AeraNFT.CollectionPublic}>(cd.providerPath, target: cd.storagePath)
         }
 
         self.walletReference = dapper.borrow<&FungibleToken.Vault>(from: ft.vaultPath) ?? panic("No suitable wallet linked for this account")
