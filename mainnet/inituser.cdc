@@ -30,6 +30,22 @@ transaction {
             )
         }
 
+        //run the buy without init first
+        let aeraCapCorrect= account.getCapability<&AeraNFT.Collection{NonFungibleToken.CollectionPublic}>(AeraNFT.CollectionPublicPath)
+        if !aeraCapCorrect.check() {
+            account.unlink(AeraNFT.CollectionPublicPath)
+            account.unlink(AeraNFT.CollectionPrivatePath)
+
+            account.link<&AeraNFT.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection, AeraNFT.CollectionPublic}>(
+                AeraNFT.CollectionPublicPath,
+                target: AeraNFT.CollectionStoragePath
+            )
+            account.link<&AeraNFT.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection, AeraNFT.CollectionPublic}>(
+                AeraNFT.CollectionPrivatePath,
+                target: AeraNFT.CollectionStoragePath
+            )
+        }
+
         let floatCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(FLOAT.FLOATCollectionPublicPath)
         // if account.borrow<&FLOAT.Collection>(from: FLOAT.FLOATCollectionStoragePath) == nil
         if !floatCap.check() {
