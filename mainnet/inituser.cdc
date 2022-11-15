@@ -1,6 +1,7 @@
 import AeraNFT from 0x30cf5dcf6ea8d379
 import AeraPack from 0x30cf5dcf6ea8d379
 import AeraPanel from 0x30cf5dcf6ea8d379
+import AeraReward from 0x30cf5dcf6ea8d379
 import NonFungibleToken from 0x1d7e57aa55817448
 import MetadataViews from 0x1d7e57aa55817448
 import FLOAT from 0x2d4c3caffbeab845
@@ -65,6 +66,16 @@ transaction {
             account.link<&AeraPanel.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection, AeraPanel.CollectionPublic}>(
                 AeraPanel.CollectionPublicPath,
                 target: AeraPanel.CollectionStoragePath
+            )
+        }
+
+        let rewardCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraReward.CollectionPublicPath)
+        if !rewardCap.check() {
+            // cannot cast to <@NonFungibleToken.Collection>
+            account.save(<- AeraReward.createEmptyCollection(), to: AeraReward.CollectionStoragePath)
+            account.link<&AeraReward.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
+                AeraReward.CollectionPublicPath,
+                target: AeraReward.CollectionStoragePath
             )
         }
 

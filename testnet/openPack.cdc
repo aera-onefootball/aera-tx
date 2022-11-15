@@ -1,5 +1,5 @@
-import AeraNFT from 0x46625f59708ec2f8
 import AeraPack from 0x46625f59708ec2f8
+import AeraPackExtraData from 0x46625f59708ec2f8
 import FungibleToken from 0x9a0766d93b6608b7
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
@@ -13,7 +13,9 @@ transaction(packId:UInt64) {
 
     prepare(account: AuthAccount) {
         self.packs=account.borrow<&AeraPack.Collection>(from: AeraPack.CollectionStoragePath)!
-        self.receiver = account.getCapability<&{NonFungibleToken.Receiver}>(AeraNFT.CollectionPublicPath)
+        let pack = self.packs.borrowAeraPack(id: packId) ?? panic("You do not own pack with Id : ".concat(packId.toString()))
+        let path = AeraPackExtraData.getReceiverPathPerPackType(pack.getTypeID())!
+        self.receiver = account.getCapability<&{NonFungibleToken.Receiver}>(PublicPath(identifier: path)!)
     }
 
     pre {
