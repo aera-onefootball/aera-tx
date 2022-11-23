@@ -1,8 +1,8 @@
-import AeraNFT from 0x46625f59708ec2f8
-import NonFungibleToken from 0x631e88ae7f1d7c20
-import FLOAT from 0x0afe396ebc8eee65
-import MetadataViews from 0x631e88ae7f1d7c20
-import GrantedAccountAccess from 0x0afe396ebc8eee65
+import AeraNFT from 0x30cf5dcf6ea8d379
+import NonFungibleToken from 0x1d7e57aa55817448
+import FLOAT from 0x2d4c3caffbeab845
+import MetadataViews from 0x1d7e57aa55817448
+import GrantedAccountAccess from 0x2d4c3caffbeab845
 
 /// This transaction facilitates the completion of a Transfer Challenge
 ///
