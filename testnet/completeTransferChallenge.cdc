@@ -3,6 +3,8 @@ import NonFungibleToken from 0x631e88ae7f1d7c20
 import FLOAT from 0x0afe396ebc8eee65
 import MetadataViews from 0x631e88ae7f1d7c20
 import GrantedAccountAccess from 0x0afe396ebc8eee65
+import FindFurnace from 0x35717efbbce11c74
+import FindViews from 0x35717efbbce11c74
 
 /// This transaction facilitates the completion of a Transfer Challenge
 ///
@@ -22,6 +24,8 @@ transaction(ids: [UInt64], eventId: UInt64, eventHost: Address) {
     let floatEventPublic: &FLOAT.FLOATEvent{FLOAT.FLOATEventPublic}
     let userFloatCollection: &FLOAT.Collection
 
+    let pointers : [FindViews.AuthNFTPointer] 
+
     prepare(account: AuthAccount) {
         self.userAddress = account.address
 
@@ -39,7 +43,21 @@ transaction(ids: [UInt64], eventId: UInt64, eventHost: Address) {
 
         // Borrow access to the user's FLOAT collection
         self.userFloatCollection = account.borrow<&FLOAT.Collection>(from: FLOAT.FLOATCollectionStoragePath) 
-        ?? panic("Could not borrow the users public FLOAT Collection.")                                    
+        ?? panic("Could not borrow the users public FLOAT Collection.")    
+
+
+        self.pointers = []
+        var cap = account.getCapability<&AeraNFT.Collection{MetadataViews.ResolverCollection, NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(AeraNFT.CollectionPrivatePath)
+        if !cap.check() {
+        account.getCapability(AeraNFT.CollectionPrivatePath)
+            account.link<&AeraNFT.Collection{MetadataViews.ResolverCollection, NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(AeraNFT.CollectionPrivatePath , target: AeraNFT.CollectionStoragePath)
+            cap = account.getCapability<&AeraNFT.Collection{MetadataViews.ResolverCollection, NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(AeraNFT.CollectionPrivatePath)
+        }
+
+        for id in ids {
+            self.pointers.append(FindViews.AuthNFTPointer(cap: cap, id: id))
+        }
+
     }
 
     pre {
@@ -48,9 +66,11 @@ transaction(ids: [UInt64], eventId: UInt64, eventHost: Address) {
     }
 
     execute {
-        // Burn the selected NFT's from the user's NFT collection
-        for id in ids { 
-            self.aeraCollection.burn(id)
+
+        let ctx : {String : String} = {} 
+        ctx["tenant"] = "onefootball"
+        for i , pointer in self.pointers {
+            FindFurnace.burn(pointer: pointer, context: ctx)
         }
 
         // Deliver the FLOAT to the user's FLOAT collection
