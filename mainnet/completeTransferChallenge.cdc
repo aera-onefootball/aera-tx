@@ -24,6 +24,7 @@ transaction(ids: [UInt64], eventId: UInt64, eventHost: Address) {
     let floatEventPublic: &FLOAT.FLOATEvent{FLOAT.FLOATEventPublic}
     let userFloatCollection: &FLOAT.Collection
 
+    let context : {String:String}
     let pointers : [FindViews.AuthNFTPointer] 
 
     prepare(account: AuthAccount) {
@@ -58,6 +59,11 @@ transaction(ids: [UInt64], eventId: UInt64, eventHost: Address) {
             self.pointers.append(FindViews.AuthNFTPointer(cap: cap, id: id))
         }
 
+        self.context = {
+            "tenant" : "onefootball",
+            "floatEventId" : eventId.toString(),
+            "floatEventHost" : eventHost.toString()
+        } 
     }
 
     pre {
@@ -66,11 +72,8 @@ transaction(ids: [UInt64], eventId: UInt64, eventHost: Address) {
     }
 
     execute {
-
-        let ctx : {String : String} = {} 
-        ctx["tenant"] = "onefootball"
         for i , pointer in self.pointers {
-            FindFurnace.burn(pointer: pointer, context: ctx)
+            FindFurnace.burn(pointer: pointer, context: self.context)
         }
 
         // Deliver the FLOAT to the user's FLOAT collection
