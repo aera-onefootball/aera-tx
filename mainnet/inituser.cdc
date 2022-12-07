@@ -1,7 +1,12 @@
 import AeraNFT from 0x30cf5dcf6ea8d379
 import AeraPack from 0x30cf5dcf6ea8d379
+<<<<<<< HEAD
 import AeraPanel1 from 0x30cf5dcf6ea8d379
 import AeraReward1 from 0x30cf5dcf6ea8d379
+=======
+import AeraPanel2 from 0x30cf5dcf6ea8d379
+import AeraReward2 from 0x30cf5dcf6ea8d379
+>>>>>>> da74f7b (rename)
 import NonFungibleToken from 0x1d7e57aa55817448
 import MetadataViews from 0x1d7e57aa55817448
 import FLOAT from 0x2d4c3caffbeab845
@@ -59,6 +64,7 @@ transaction {
             )
         }
 
+<<<<<<< HEAD
         let panelCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraPanel1.CollectionPublicPath)
         if !panelCap.check() {
             // cannot cast to <@NonFungibleToken.Collection>
@@ -76,6 +82,25 @@ transaction {
             account.link<&AeraReward1.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
                 AeraReward1.CollectionPublicPath,
                 target: AeraReward1.CollectionStoragePath
+=======
+        let panelCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraPanel2.CollectionPublicPath)
+        if !panelCap.check() {
+            // cannot cast to <@NonFungibleToken.Collection>
+            account.save(<- AeraPanel2.createEmptyCollection(), to: AeraPanel2.CollectionStoragePath)
+            account.link<&AeraPanel2.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection, AeraPanel2.CollectionPublic}>(
+                AeraPanel2.CollectionPublicPath,
+                target: AeraPanel2.CollectionStoragePath
+            )
+        }
+
+        let rewardCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraReward2.CollectionPublicPath)
+        if !rewardCap.check() {
+            // cannot cast to <@NonFungibleToken.Collection>
+            account.save(<- AeraReward2.createEmptyCollection(), to: AeraReward2.CollectionStoragePath)
+            account.link<&AeraReward2.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
+                AeraReward2.CollectionPublicPath,
+                target: AeraReward2.CollectionStoragePath
+>>>>>>> da74f7b (rename)
             )
         }
 
