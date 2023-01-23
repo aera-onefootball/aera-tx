@@ -1,5 +1,7 @@
 import AeraNFT from 0x46625f59708ec2f8
 import AeraPack from 0x46625f59708ec2f8
+import AeraPanel2 from 0x46625f59708ec2f8
+import AeraReward2 from 0x46625f59708ec2f8
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 import FLOAT from 0x0afe396ebc8eee65
@@ -56,5 +58,26 @@ transaction {
                 target: FLOAT.FLOATCollectionStoragePath
             )
         }
+
+        let panelCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraPanel2.CollectionPublicPath)
+        if !panelCap.check() {
+            // cannot cast to <@NonFungibleToken.Collection>
+            account.save(<- AeraPanel2.createEmptyCollection(), to: AeraPanel2.CollectionStoragePath)
+            account.link<&AeraPanel2.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection, AeraPanel2.CollectionPublic}>(
+                AeraPanel2.CollectionPublicPath,
+                target: AeraPanel2.CollectionStoragePath
+            )
+        }
+
+        let rewardCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraReward2.CollectionPublicPath)
+        if !rewardCap.check() {
+            // cannot cast to <@NonFungibleToken.Collection>
+            account.save(<- AeraReward2.createEmptyCollection(), to: AeraReward2.CollectionStoragePath)
+            account.link<&AeraReward2.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
+                AeraReward2.CollectionPublicPath,
+                target: AeraReward2.CollectionStoragePath
+            )
+        }
+
     }
 }
