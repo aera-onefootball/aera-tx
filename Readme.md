@@ -1,3 +1,5 @@
+⚠️⚠️⚠️ The content of this repo has moved to find-onefootball/aera-cadence ⚠️⚠️⚠️
+
 <img src="./images/logo.svg" alt="Aera by OneFootball Logo" align="right">
 
 # Aera by OneFootball &middot; ![Env](https://img.shields.io/badge/env-testnet-orange?style=flat-square)
