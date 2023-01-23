@@ -1,6 +1,5 @@
 import AeraNFT from 0x46625f59708ec2f8
 import AeraPack from 0x46625f59708ec2f8
-import AeraPanel from 0x46625f59708ec2f8
 import NonFungibleToken from 0x631e88ae7f1d7c20
 import MetadataViews from 0x631e88ae7f1d7c20
 import FLOAT from 0x0afe396ebc8eee65
@@ -57,16 +56,5 @@ transaction {
                 target: FLOAT.FLOATCollectionStoragePath
             )
         }
-
-        let panelCap= account.getCapability<&{NonFungibleToken.CollectionPublic}>(AeraPanel.CollectionPublicPath)
-        if !panelCap.check() {
-            // cannot cast to <@NonFungibleToken.Collection>
-            account.save(<- AeraPanel.createEmptyCollection(), to: AeraPanel.CollectionStoragePath)
-            account.link<&AeraPanel.Collection{NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection, AeraPanel.CollectionPublic}>(
-                AeraPanel.CollectionPublicPath,
-                target: AeraPanel.CollectionStoragePath
-            )
-        }
-
     }
 }
